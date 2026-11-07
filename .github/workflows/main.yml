@@ -1,0 +1,26 @@
+name: Stock Radar 24H Bot
+
+on:
+  schedule:
+    - cron: '*/15 * * * *' # 15분마다 자동으로 서버가 깨어나서 SEC 공시 및 바닥 매집 스캔
+  workflow_dispatch:
+
+jobs:
+  run-radar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          pip install requests yfinance deep-translator
+
+      - name: Run Radar Script
+        run: |
+          python radar.py
